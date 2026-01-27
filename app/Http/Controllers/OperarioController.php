@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Support\Facades\Hash;
 use App\Http\Controllers\Controller;
+use App\Models\Administrativo;
+use App\Models\Gestor;
 use App\Models\Operario;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
@@ -22,52 +24,32 @@ class OperarioController extends Controller
             'rol' => 'required|in:gestor,administrativo,operario'
         ]);
 
-        $credentials = $request->except(['_token']);
-
-        $rol = $credentials['rol'];
+        $credentials = $request->only('email', 'password');
+        $rol = $request->rol;
 
         switch ($rol) {
             case 'gestor':
                 if (Auth::guard('gestor')->attempt($credentials)) {
-
                     return redirect()->route('admin');
-
-                } else {
-                    session()->flash('message', 'Invalid credentials');
-                    return redirect()->back();
                 }
                 break;
+
             case 'administrativo':
                 if (Auth::guard('administrativo')->attempt($credentials)) {
                     return redirect()->route('administrativo');
-                } else {
-                    session()->flash('message', 'Invalid credentials');
-                    return redirect()->back();
                 }
                 break;
+
             case 'operario':
                 if (Auth::guard('operario')->attempt($credentials)) {
-
                     return redirect()->route('operario');
-                } else {
-                    session()->flash('message', 'Invalid credentials');
-                    return redirect()->back();
                 }
                 break;
-
         }
 
-        //dd(Auth::guard('operario')->attempt($credentials));
-
-        if (Auth::guard('operario')->attempt($credentials)) {  //comprobación de autenticación
-
-            return redirect()->route('admin');  //nos redirije a la ruta 'admin'
-
-        } else {
-            session()->flash('message', 'Invalid credentials');
-            return redirect()->back();
-        }
+        return back()->with('message', 'Invalid credentials');
     }
+
 
     /*IMPORTANTE: Puede que la función "auth()->attempt($credentials)" de problemas,por tanto, otra forma es cambiarla por:
 
@@ -83,19 +65,37 @@ y añadir la función al modelo Estudiante
 
     public function registro(Request $request)
     {
+       
         $request->validate([
-            'name' => 'required',
-            'email' => 'required',
-            'password' => 'required'
+            'name' => 'required|string|max:255',
+            'email' => 'required|email',
+            'password' => 'required|min:6',
+            'rol' => 'required|in:gestor,administrativo,operario'
         ]);
+        
 
-        $user = Operario::create([
-            'name' => trim($request->input('name')),
-            'email' => strtolower($request->input('email')),
-            'password' => bcrypt($request->input('password')),
-        ]);
 
-        return redirect()->route('admin');
+        $data = [
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => Hash::make($request->password),
+        ];
+        //dd($request->rol);
+
+
+        switch ($request->rol) {
+            case 'gestor':
+                Gestor::create($data);
+                return redirect()->route('admin');
+
+            case 'administrativo':
+                Administrativo::create($data);
+                return redirect()->route('administrativo');
+
+            case 'operario':
+                Operario::create($data);
+                return redirect()->route('operario');
+        }
     }
 
     public function logout(Request $request)

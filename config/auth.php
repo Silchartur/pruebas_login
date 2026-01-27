@@ -44,6 +44,14 @@ return [
             'driver' => 'session',
             'provider' => 'operarios',
         ],
+        'gestor' => [
+            'driver' => 'session',
+            'provider' => 'gestores',
+        ],
+        'administrador' => [
+            'driver' => 'session',
+            'provider' => 'administradores',
+        ],
     ],
 
     /*
@@ -69,6 +77,17 @@ return [
             //'model' => env('AUTH_MODEL', App\Models\User::class),
             'model' => App\Models\Operario::class,
         ],
+
+            'gestores' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\Gestor::class,
+        ],
+
+        'administrativos' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\Administrativo::class,
+        ],
+
 
         // 'users' => [
         //     'driver' => 'database',

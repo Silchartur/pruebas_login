@@ -14,6 +14,8 @@ class Administrativo extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
 
+    protected $table = 'administrativos';
+
     /**
      * The attributes that are mass assignable.
      *

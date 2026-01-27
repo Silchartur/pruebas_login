@@ -14,6 +14,7 @@ class Gestor extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
 
+      protected $table = 'gestores';
     /**
      * The attributes that are mass assignable.
      *

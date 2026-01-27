@@ -14,6 +14,7 @@ class Operario extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
 
+    protected $table = 'operarios';
     /**
      * The attributes that are mass assignable.
      *
