@@ -1,15 +1,18 @@
 <?php
 
+use App\Http\Controllers\UsuariosController;
 use Illuminate\Support\Facades\Route;
 
-use App\Http\Controllers\OperarioController;
 
 Route::get('/', function () {
     return view('welcome');
 });
 
 Route::view('/login', 'login')->name('logininicio');
-Route::post('/login-usuario', [OperarioController::class, 'login'])->name('login');
+Route::post('/login-usuario', [UsuariosController::class, 'login'])->name('login');
 
 Route::view('/registrar', 'registrar')->name('registrarinicio');
-Route::post('/registrar-usuario', [OperarioController::class, 'registro'])->name('registrar');
+Route::post('/registrar-usuario', [UsuariosController::class, 'registro'])->name('registrar');
+
+
+Route::get('/listadoUsuarios', [UsuariosController::class, 'listadoUsuarios']);

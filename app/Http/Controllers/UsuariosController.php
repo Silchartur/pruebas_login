@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Session;
 
 use Validator;
 
-class OperarioController extends Controller
+class UsuariosController extends Controller
 {
     public function login(Request $request)
     {
@@ -65,14 +65,14 @@ y añadir la función al modelo Estudiante
 
     public function registro(Request $request)
     {
-       
+
         $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|email',
             'password' => 'required|min:6',
             'rol' => 'required|in:gestor,administrativo,operario'
         ]);
-        
+
 
 
         $data = [
@@ -86,15 +86,15 @@ y añadir la función al modelo Estudiante
         switch ($request->rol) {
             case 'gestor':
                 Gestor::create($data);
-                return redirect()->route('admin');
+                return redirect()->route('listadoUsuarios')->with('success', 'Gestor creado correctamente');
 
             case 'administrativo':
                 Administrativo::create($data);
-                return redirect()->route('administrativo');
+                return redirect()->route('listadoUsuarios')->with('success', 'Administrativo creado correctamente');
 
             case 'operario':
                 Operario::create($data);
-                return redirect()->route('operario');
+                return redirect()->route('listadoUsuarios')->with('success', 'Operario creado correctamente');
         }
     }
 
@@ -103,5 +103,15 @@ y añadir la función al modelo Estudiante
         Session::flush();
         Auth::logout();
         return redirect('login');
+    }
+
+    public function listadoUsuarios(){
+
+        $gestores = Gestor::All();
+        $administrativos = Administrativo::All();
+        $operarios = Operario::All();
+
+        return view('listadoUsuarios', compact('gestores', 'administrativos', 'operarios'));
+
     }
 }
