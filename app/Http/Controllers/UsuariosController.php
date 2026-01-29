@@ -105,13 +105,30 @@ y añadir la función al modelo Estudiante
         return redirect('login');
     }
 
-    public function listadoUsuarios(){
+    public function listadoUsuarios(Request $request){
 
         $gestores = Gestor::All();
         $administrativos = Administrativo::All();
         $operarios = Operario::All();
 
-        return view('listadoUsuarios', compact('gestores', 'administrativos', 'operarios'));
+        $usuarioSeleccionado = null;
+        $rol = $request->rol;
+
+        if ($rol && $request->id) {
+            switch ($rol) {
+                case 'gestor':
+                    $usuarioSeleccionado = Gestor::find($request->id);
+                    break;
+                case 'administrativo':
+                    $usuarioSeleccionado = Administrativo::find($request->id);
+                    break;
+                case 'operario':
+                    $usuarioSeleccionado = Operario::find($request->id);
+                    break;
+            }
+        }
+
+        return view('listadoUsuarios', compact('gestores', 'administrativos', 'operarios', 'usuarioSeleccionado', 'rol'));
 
     }
 }
