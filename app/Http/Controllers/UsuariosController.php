@@ -30,7 +30,7 @@ class UsuariosController extends Controller
         switch ($rol) {
             case 'gestor':
                 if (Auth::guard('gestor')->attempt($credentials)) {
-                    return redirect()->route('admin');
+                    return redirect()->route('gestor');
                 }
                 break;
 

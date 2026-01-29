@@ -1,15 +1,23 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <title>Listado de Usuarios</title>
 </head>
+
 <body>
+    @if (session('success'))
+        <div class="alert alert-success">
+            {{ session('success') }}
+        </div>
+    @endif
+
 
     <h1>Listado de Usuarios</h1>
 
     <h2>Gestores</h2>
-    @if($gestores->isEmpty())
+    @if ($gestores->isEmpty())
         <p>No hay gestores.</p>
     @else
         <table>
@@ -33,7 +41,7 @@
     @endif
 
     <h2>Administrativos</h2>
-    @if($administrativos->isEmpty())
+    @if ($administrativos->isEmpty())
         <p>No hay administrativos.</p>
     @else
         <table>
@@ -57,7 +65,7 @@
     @endif
 
     <h2>Operarios</h2>
-    @if($operarios->isEmpty())
+    @if ($operarios->isEmpty())
         <p>No hay operarios.</p>
     @else
         <table>
@@ -81,4 +89,5 @@
     @endif
 
 </body>
+
 </html>

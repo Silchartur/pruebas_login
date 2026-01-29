@@ -15,4 +15,4 @@ Route::view('/registrar', 'registrar')->name('registrarinicio');
 Route::post('/registrar-usuario', [UsuariosController::class, 'registro'])->name('registrar');
 
 
-Route::get('/listadoUsuarios', [UsuariosController::class, 'listadoUsuarios']);
+Route::get('/listadoUsuarios', [UsuariosController::class, 'listadoUsuarios'])->name('listadoUsuarios');;
