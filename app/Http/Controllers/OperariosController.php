@@ -15,16 +15,16 @@ class OperariosController extends Controller
             'email' => 'required|email'
         ]);
 
-        $gestor = Operario::findOrFail($id);
+        $operario = Operario::findOrFail($id);
 
-        $gestor->name = $request->name;
-        $gestor->email = $request->email;
-        $gestor->save();
+        $operario->name = $request->name;
+        $operario->email = $request->email;
+        $operario->save();
 
         return redirect()
             ->route('listadoUsuarios', [
                 'rol' => 'operario',
-                'id' => $gestor->id
+                'id' => $operario->id
             ])
             ->with('success', 'Operario actualizado correctamente');
     }

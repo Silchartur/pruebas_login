@@ -15,16 +15,16 @@ class AdministrativosController extends Controller
             'email' => 'required|email'
         ]);
 
-        $gestor = Administrativo::findOrFail($id);
+        $administrativo = Administrativo::findOrFail($id);
 
-        $gestor->name = $request->name;
-        $gestor->email = $request->email;
-        $gestor->save();
+        $administrativo->name = $request->name;
+        $administrativo->email = $request->email;
+        $administrativo->save();
 
         return redirect()
             ->route('listadoUsuarios', [
                 'rol' => 'administrativo',
-                'id' => $gestor->id
+                'id' => $administrativo->id
             ])
             ->with('success', 'Administrativo actualizado correctamente');
     }
