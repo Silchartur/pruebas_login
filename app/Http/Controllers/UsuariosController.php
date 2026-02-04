@@ -100,12 +100,18 @@ y añadir la función al modelo Estudiante
 
     public function logout(Request $request)
     {
+        Auth::guard('gestor')->logout();
+        Auth::guard('administrativo')->logout();
+        Auth::guard('operario')->logout();
+
         Session::flush();
-        Auth::logout();
-        return redirect('login');
+
+        return redirect('/login');
     }
 
-    public function listadoUsuarios(Request $request){
+
+    public function listadoUsuarios(Request $request)
+    {
 
         $gestores = Gestor::All();
         $administrativos = Administrativo::All();
@@ -129,6 +135,5 @@ y añadir la función al modelo Estudiante
         }
 
         return view('listadoUsuarios', compact('gestores', 'administrativos', 'operarios', 'usuarioSeleccionado', 'rol'));
-
     }
 }
