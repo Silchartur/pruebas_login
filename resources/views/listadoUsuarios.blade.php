@@ -274,7 +274,10 @@
                 </div>
 
                 <div class="barra-acciones">
-                    <button class="btn-accion">Añadir usuario +</button>
+                    <form action="{{ route('registrarinicio') }}" method="GET">
+                        <button class="btn-accion">Añadir usuario +</button>
+                    </form>
+
                     <button class="btn-accion btn-eliminar">Eliminar usuario</button>
                     <form method="POST" action="/logout">
                         @csrf
