@@ -14,7 +14,7 @@ Route::get('/', function () {
 //LOGIN Y LOGOUT (todos pueden entrar y salir?)
 Route::view('/login', 'login')->name('login');
 Route::post('/login-usuario', [UsuariosController::class, 'login']);
-Route::post('/logout', [UsuariosController::class, 'logout']);
+//Route::post('/logout', [UsuariosController::class, 'logout']);
 
 
 // RUTAS SOLO PARA GESTOR 
@@ -43,6 +43,7 @@ Route::middleware('auth:gestor')->group(function () {
 //RUTAS PARA USUARIOS LOGUEADOS 
 Route::middleware(['auth:gestor,administrativo,operario'])->group(function () {
 
+    //mandar info a react de que usuario esta conectado (?) iria en la api 
     Route::get('/usuario', [UsuariosController::class, 'usuarioActual']);
 
     Route::post('/logout', [UsuariosController::class, 'logout']);
