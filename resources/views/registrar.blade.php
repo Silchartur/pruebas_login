@@ -1,55 +1,77 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Registro</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Registro de usuario</title>
 </head>
+
 <body>
+
+<h2>Registrar nuevo usuario</h2>
+
 @if ($errors->any())
-    <div style="color:red;">
-        <ul>
-            @foreach ($errors->all() as $error)
-                <li>{{ $error }}</li>
-            @endforeach
-        </ul>
-    </div>
+<div style="color:red;">
+    <ul>
+        @foreach ($errors->all() as $error)
+            <li>{{ $error }}</li>
+        @endforeach
+    </ul>
+</div>
 @endif
 
-<form method="post" action="{{ route('registrar') }}">
-    @csrf
+<form method="POST" action="{{ route('registrar') }}" enctype="multipart/form-data">
+@csrf
 
-    <div class="form-group">
-        <label>Username</label>
-        <input type="text" name="name" class="form-control p_input" value="{{ old('name') }}">
-    </div>
+<div>
+    <label>Nombre</label>
+    <input type="text" name="name" value="{{ old('name') }}" required>
+</div>
 
-    <div class="form-group">
-        <label>Email</label>
-        <input type="email" name="email" class="form-control p_input" value="{{ old('email') }}">
-    </div>
+<div>
+    <label>Apellidos</label>
+    <input type="text" name="apellidos" value="{{ old('apellidos') }}" required>
+</div>
 
-    <div class="form-group">
-        <label>Password</label>
-        <input type="password" name="password" class="form-control p_input">
-    </div>
+<div>
+    <label>Email</label>
+    <input type="email" name="email" value="{{ old('email') }}" required>
+</div>
 
-    <div class="form-group">
-        <label>Rol</label>
-        <select name="rol" class="form-control">
-            <option value="">-- Selecciona un rol --</option>
-            <option value="gestor" {{ old('rol') == 'gestor' ? 'selected' : '' }}>Gestor</option>
-            <option value="administrativo" {{ old('rol') == 'administrativo' ? 'selected' : '' }}>Administrativo</option>
-            <option value="operario" {{ old('rol') == 'operario' ? 'selected' : '' }}>Operario</option>
-        </select>
-    </div>
+<div>
+    <label>Teléfono</label>
+    <input type="text" name="telefono" value="{{ old('telefono') }}">
+</div>
 
-    <div class="text-center">
-        <button type="submit" class="btn btn-primary btn-block enter-btn">
-            Register
-        </button>
-    </div>
+<div>
+    <label>Observaciones</label>
+    <input type="text" name="observaciones" value="{{ old('observaciones') }}">
+</div>
+
+<div>
+    <label>Contraseña</label>
+    <input type="password" name="password" required>
+</div>
+
+<div>
+    <label>Rol</label>
+    <select name="rol" required>
+        <option value="">-- Selecciona rol --</option>
+        <option value="gestor" {{ old('rol')=='gestor'?'selected':'' }}>Gestor</option>
+        <option value="administrativo" {{ old('rol')=='administrativo'?'selected':'' }}>Administrativo</option>
+        <option value="operario" {{ old('rol')=='operario'?'selected':'' }}>Operario</option>
+    </select>
+</div>
+
+<div>
+    <label>Imagen de usuario</label>
+    <input type="file" name="imagen">
+</div>
+
+<br>
+
+<button type="submit">Crear usuario</button>
+
 </form>
 
 </body>

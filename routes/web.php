@@ -11,9 +11,11 @@ Route::get('/', function () {
 });
 
 
-//LOGIN (todos pueden entrar)
+//LOGIN Y LOGOUT (todos pueden entrar y salir?)
 Route::view('/login', 'login')->name('login');
 Route::post('/login-usuario', [UsuariosController::class, 'login']);
+Route::post('/logout', [UsuariosController::class, 'logout']);
+
 
 // RUTAS SOLO PARA GESTOR 
 Route::middleware('auth:gestor')->group(function () {

@@ -81,7 +81,7 @@
 
         <div class="form-group">
             <label>Identificación</label>
-            <input type="text" name="email" placeholder="Introduce tu usuario">
+            <input type="text" name="email" placeholder="Introduce tu email">
         </div>
 
         <div class="form-group">

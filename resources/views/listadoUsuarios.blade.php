@@ -276,6 +276,11 @@
                 <div class="barra-acciones">
                     <button class="btn-accion">Añadir usuario +</button>
                     <button class="btn-accion btn-eliminar">Eliminar usuario</button>
+                    <form method="POST" action="/logout">
+                        @csrf
+                        <button type="submit">Salir</button>
+                    </form>
+
                 </div>
 
             </div>

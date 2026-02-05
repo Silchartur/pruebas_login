@@ -17,8 +17,8 @@ return new class extends Migration
             $table->string('password');
             $table->integer('telefono');
             $table->enum('rol',['gestor','administrativo','operario'])->default('administrativo');
-            $table->text('imagen');
-            $table->text('observaciones');
+            $table->text('imagen')->nullable();;
+            $table->text('observaciones')->nullable();;
             $table->rememberToken();
             $table->timestamps();
         });
