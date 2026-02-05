@@ -8,8 +8,6 @@
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 
     <style>
-
-
         body {
             margin: 0;
             font-family: 'Segoe UI', Arial;
@@ -55,8 +53,6 @@
             flex: 1;
             display: flex;
             overflow: hidden;
-            min-height: 0;
-
         }
 
         /* ---------- LISTADO ---------- */
@@ -66,7 +62,6 @@
             display: flex;
             flex-direction: column;
             overflow: hidden;
-            min-height: 100%;
         }
 
         .listado h1 {
@@ -74,7 +69,7 @@
             color: #29485f;
         }
 
-        /* barra filtros */
+        /* filtros */
         .barra-filtros {
             display: flex;
             justify-content: space-between;
@@ -94,11 +89,6 @@
             border: 1px solid #ccd6df;
         }
 
-        .buscador {
-            display: flex;
-            align-items: center;
-        }
-
         .buscador input {
             padding: 7px;
             border-radius: 6px;
@@ -106,39 +96,26 @@
             width: 200px;
         }
 
-        .buscador button {
-            margin-left: 5px;
-            padding: 7px 10px;
-            border: none;
-            background: #5e7f98;
-            color: white;
-            border-radius: 6px;
-        }
-
         /* ---------- SCROLL ---------- */
         .lista-scroll {
             flex: 1;
-            overflow-y: scroll;
+            overflow-y: auto;
         }
 
-        /* GRID cuando no hay detalle */
+        /* grid cuando no hay detalle */
         .modo-grid .lista-scroll {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            /* display: flex;
-            flex-direction: row; */
             gap: 20px;
-            align-content: start;
         }
 
-        /* LISTA cuando hay detalle */
+        /* lista cuando hay detalle */
         .modo-lista .lista-scroll {
             display: flex;
             flex-direction: column;
             gap: 22px;
         }
 
-        /* tarjetas */
         .usuario-card {
             background: #dce7ef;
             border-radius: 14px;
@@ -149,17 +126,14 @@
             align-items: center;
         }
 
-        /* tamaño fijo para que no cambie */
-        .modo-grid .usuario-card {
-            height: 110px;
+        .usuario-info {
+            display: flex;
+            gap: 50px;
         }
 
-        .usuario-info strong {
-            color: #2c3e50;
-        }
-
-        .usuario-info small {
-            color: #556;
+        .avatar {
+            border-radius: 50%;
+            height: 100px;
         }
 
         .btn-detalle {
@@ -177,6 +151,7 @@
             background: #9fb6c7;
             padding: 25px;
             border-radius: 25px 0 0 25px;
+            overflow-y: auto;
         }
 
         .panel-detalle input {
@@ -193,6 +168,36 @@
             border: none;
             padding: 8px 16px;
             border-radius: 8px;
+        }
+
+        /* ---------- BOTONES INFERIORES ---------- */
+        .barra-acciones {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            padding: 12px 0 5px;
+        }
+
+        .btn-accion {
+            background: #5e7f98;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 10px 22px;
+            cursor: pointer;
+            box-shadow: 0 3px 6px rgba(0, 0, 0, 0.15);
+        }
+
+        .btn-accion:hover {
+            background: #4f6d83;
+        }
+
+        .btn-eliminar {
+            background: #b85454;
+        }
+
+        .btn-eliminar:hover {
+            background: #9e3f3f;
         }
     </style>
 </head>
@@ -217,7 +222,7 @@
         <div class="contenido">
 
             @php
-                $todos = $gestores->concat($administrativos)->concat($operarios);
+            $todos = $gestores->concat($administrativos)->concat($operarios);
             @endphp
 
             <div class="listado {{ $usuarioSeleccionado ? 'modo-lista' : 'modo-grid' }}">
@@ -225,7 +230,6 @@
                 <h1>Listado de usuarios</h1>
 
                 <div class="barra-filtros">
-
                     <div class="filtro-rol">
                         <span>Filtrar por:</span>
                         <select id="filtroRol">
@@ -238,67 +242,79 @@
 
                     <div class="buscador">
                         <input type="text" id="busqueda" placeholder="Buscar usuario">
-                        <button>🔍</button>
                     </div>
-
                 </div>
 
                 <div class="lista-scroll">
 
                     @foreach ($todos as $usuario)
-                        <div class="usuario-card" data-nombre="{{ strtolower($usuario->name) }}"
-                            data-rol="{{ strtolower($usuario->rol) }}">
+                    <div class="usuario-card"
+                        data-nombre="{{ strtolower($usuario->name) }}"
+                        data-rol="{{ strtolower($usuario->rol) }}"
+                        data-id="{{ $usuario->id }}">
 
-                            <div class="usuario-info">
-                                <div>
-                                    <strong>{{ $usuario->name }}</strong><br>
-                                    <small>{{ ucfirst($usuario->rol) }}</small>
-                                </div>
+                        <div class="usuario-info">
+                            <img src="{{ $usuario->imagen }}" class="avatar">
+                            <div>
+                                <strong>{{ $usuario->name }}</strong>
+                                <strong> {{ $usuario->apellidos }}</strong><br><br>
+                                <small>Rol: {{ ucfirst($usuario->rol) }}</small>
                             </div>
-
-                            <form method="GET" action="{{ route('listadoUsuarios') }}">
-                                <input type="hidden" name="id" value="{{ $usuario->id }}">
-                                <input type="hidden" name="rol" value="{{ $usuario->rol }}">
-                                <button class="btn-detalle">Detalles</button>
-                            </form>
-
                         </div>
+
+                        <form method="GET" action="{{ route('listadoUsuarios') }}">
+                            <input type="hidden" name="id" value="{{ $usuario->id }}">
+                            <input type="hidden" name="rol" value="{{ $usuario->rol }}">
+                            <button class="btn-detalle">Detalles</button>
+                        </form>
+
+                    </div>
                     @endforeach
 
+                </div>
+
+                <div class="barra-acciones">
+                    <button class="btn-accion">Añadir usuario +</button>
+                    <button class="btn-accion btn-eliminar">Eliminar usuario</button>
                 </div>
 
             </div>
 
             @if ($usuarioSeleccionado)
-                <div class="detalle">
-                    <div class="panel-detalle">
+            <div class="detalle">
+                <div class="panel-detalle">
 
-                        <form method="GET" action="{{ route('listadoUsuarios') }}">
-                            <button>← Volver</button>
-                        </form>
+                    <form method="GET" action="{{ route('listadoUsuarios') }}">
+                        <button>← Volver</button>
+                    </form>
 
-                        <h2>Detalles del usuario</h2>
+                    <h2>Detalles del usuario</h2>
 
-                        <form method="POST" action="{{ route($rol . '_update', $usuarioSeleccionado->id) }}">
-                            @csrf
-                            @method('PUT')
+                    <form method="POST" action="{{ route($rol . '_update', $usuarioSeleccionado->id) }}">
+                        @csrf
+                        @method('PUT')
 
-                            <label>Nombre</label>
-                            <input name="name" value="{{ $usuarioSeleccionado->name }}" disabled>
+                        <label>Nombre</label>
+                        <input name="name" value="{{ $usuarioSeleccionado->name }}" disabled>
 
-                            <label>Email</label>
-                            <input name="email" value="{{ $usuarioSeleccionado->email }}" disabled>
+                        <label>Apellidos</label>
+                        <input name="apellidos" value="{{ $usuarioSeleccionado->apellidos }}" disabled>
 
-                            <button type="button" onclick="activarEdicion()">Editar</button>
+                        <label>Email</label>
+                        <input name="email" value="{{ $usuarioSeleccionado->email }}" disabled>
 
-                            <button type="submit" id="btnGuardar" hidden>
-                                Guardar
-                            </button>
+                        <label>Teléfono</label>
+                        <input name="telefono" value="{{ $usuarioSeleccionado->telefono }}" disabled>
 
-                        </form>
+                        <label>Observaciones</label>
+                        <input name="observaciones" value="{{ $usuarioSeleccionado->observaciones }}" disabled>
 
-                    </div>
+                        <button type="button" onclick="activarEdicion()">Editar</button>
+                        <button type="submit" id="btnGuardar" hidden>Guardar</button>
+
+                    </form>
                 </div>
+            </div>
             @endif
 
         </div>
@@ -319,14 +335,18 @@
             const rol = filtroRol.value;
 
             document.querySelectorAll(".usuario-card").forEach(card => {
-                const nombre = card.dataset.nombre;
+                const nombre = card.dataset.nombre.toLowerCase();
                 const rolUser = card.dataset.rol;
+                const idUser = card.dataset.id.toLowerCase();
 
                 const coincideNombre = nombre.includes(texto);
+                const coincideId = idUser.includes(texto);
                 const coincideRol = !rol || rolUser === rol;
 
                 card.style.display =
-                    (coincideNombre && coincideRol) ? "flex" : "none";
+                    ((coincideNombre || coincideId) && coincideRol) ?
+                    "flex" :
+                    "none";
             });
         }
 

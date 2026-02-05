@@ -7,25 +7,29 @@ use Illuminate\Http\Request;
 
 class OperariosController extends Controller
 {
-     public function update(Request $request, $id)
-    {
+    public function update(Request $request, $id)
+{
+    $request->validate([
+        'name'  => 'required|string|max:255',
+        'email' => 'required|email'
+    ]);
 
-        $request->validate([
-            'name'  => 'required|string|max:255',
-            'email' => 'required|email'
-        ]);
+    $operario = Operario::findOrFail($id);
 
-        $operario = Operario::findOrFail($id);
+    $operario->name = $request->name;
+    $operario->email = $request->email;
+    $operario->apellidos = $request->apellidos;
+    $operario->telefono = $request->telefono;
+    $operario->observaciones = $request->observaciones;
 
-        $operario->name = $request->name;
-        $operario->email = $request->email;
-        $operario->save();
+    $operario->save();
 
-        return redirect()
-            ->route('listadoUsuarios', [
-                'rol' => 'operario',
-                'id' => $operario->id
-            ])
-            ->with('success', 'Operario actualizado correctamente');
-    }
+    return redirect()
+        ->route('listadoUsuarios', [
+            'rol' => 'operario',
+            'id' => $operario->id
+        ])
+        ->with('success', 'Operario actualizado correctamente');
+}
+
 }

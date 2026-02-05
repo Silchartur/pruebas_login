@@ -14,10 +14,14 @@ return new class extends Migration
         Schema::create('operarios', function (Blueprint $table) {
             $table->id();
             $table->string('name');
+            $table->string('apellidos');
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
+            $table->integer('telefono');
             $table->enum('rol',['gestor','administrativo','operario'])->default('operario');
+            $table->text('imagen');
+            $table->text('observaciones');
             $table->rememberToken();
             $table->timestamps();
         });

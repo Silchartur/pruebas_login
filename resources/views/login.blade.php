@@ -76,7 +76,7 @@
 <div class="formulario-div">
     <h2>TRANSITPORT</h2>
 
-    <form method="post" action="{{ route('login') }}">
+    <form method="POST" action="/login-usuario">
         @csrf
 
         <div class="form-group">

@@ -7,25 +7,29 @@ use Illuminate\Http\Request;
 
 class GestoresController extends Controller
 {
-    public function update(Request $request, $id)
-    {
+   public function update(Request $request, $id)
+{
+    $request->validate([
+        'name'  => 'required|string|max:255',
+        'email' => 'required|email'
+    ]);
 
-        $request->validate([
-            'name'  => 'required|string|max:255',
-            'email' => 'required|email'
-        ]);
+    $gestor = Gestor::findOrFail($id);
 
-        $gestor = Gestor::findOrFail($id);
+    $gestor->name = $request->name;
+    $gestor->email = $request->email;
+    $gestor->apellidos = $request->apellidos;
+    $gestor->telefono = $request->telefono;
+    $gestor->observaciones = $request->observaciones;
 
-        $gestor->name = $request->name;
-        $gestor->email = $request->email;
-        $gestor->save();
+    $gestor->save();
 
-        return redirect()
-            ->route('listadoUsuarios', [
-                'rol' => 'gestor',
-                'id' => $gestor->id
-            ])
-            ->with('success', 'Gestor actualizado correctamente');
-    }
+    return redirect()
+        ->route('listadoUsuarios', [
+            'rol' => 'gestor',
+            'id' => $gestor->id
+        ])
+        ->with('success', 'Gestor actualizado correctamente');
+}
+
 }
