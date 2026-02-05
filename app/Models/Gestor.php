@@ -22,10 +22,13 @@ class Gestor extends Authenticatable
      */
     protected $fillable = [
         'name',
+        'apellidos',
         'email',
         'password',
-        'rol'
-
+        'rol',
+        'telefono',
+        'imagen',
+        'observaciones'
     ];
 
      /**

@@ -100,14 +100,16 @@ y añadir la función al modelo Estudiante
 
     public function logout(Request $request)
     {
-        Auth::guard('gestor')->logout();
-        Auth::guard('administrativo')->logout();
-        Auth::guard('operario')->logout();
+        foreach (['gestor', 'administrativo', 'operario'] as $guard) {
+            Auth::guard($guard)->logout();
+        }
 
-        Session::flush();
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
 
         return redirect('/login');
     }
+
 
 
     public function listadoUsuarios(Request $request)
@@ -135,5 +137,24 @@ y añadir la función al modelo Estudiante
         }
 
         return view('listadoUsuarios', compact('gestores', 'administrativos', 'operarios', 'usuarioSeleccionado', 'rol'));
+    }
+
+    public function usuarioActual(Request $request)
+    {
+        $guards = ['gestor', 'administrativo', 'operario'];
+        $usuario = null;
+        $rol = null;
+
+        foreach ($guards as $guard) {
+            if (Auth::guard($guard)->check()) {
+                $usuario = Auth::guard($guard)->user();
+                $rol = $guard;
+            }
+        }
+
+        return response()->json(
+            $usuario ? ['usuario' => $usuario, 'rol' => $rol] : ['usuario' => null, 'rol' => null],
+            $usuario ? 200 : 401
+        );
     }
 }

@@ -11,10 +11,14 @@ return new class extends Migration
         Schema::create('gestores', function (Blueprint $table) {
             $table->id();
             $table->string('name');
+            $table->string('apellidos');
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
-            $table->enum('rol',['gestor','administrativo','operario'])->default('operario');
+            $table->integer('telefono');
+            $table->enum('rol',['gestor','administrativo','operario'])->default('gestor');
+            $table->text('imagen');
+            $table->text('observaciones');
             $table->rememberToken();
             $table->timestamps();
         });

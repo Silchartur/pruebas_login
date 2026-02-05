@@ -28,3 +28,8 @@ Route::put('/administrativo/{id}', [AdministrativosController::class, 'update'])
 Route::put('/operario/{id}', [OperariosController::class, 'update'])->name('operario_update');
 
 
+//Ruta para saber que rol y usuario es
+Route::middleware('auth')->get('/usuario', [UsuariosController::class, 'usuarioActual']);
+
+//Ruta logut
+Route::post('/logout', [UsuariosController::class, 'logout']);
