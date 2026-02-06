@@ -20,7 +20,7 @@ class OperariosSeeder extends Seeder
                 'apellidos' => $faker->lastName() . ' ' . $faker->lastName(),
                 'email' => $faker->unique()->safeEmail(),
                 'email_verified_at' => now(),
-                'password' => Hash::make('password'),
+                'password' => bcrypt('123456'),
                 'telefono' => $faker->numberBetween(600000000, 799999999),
                 'rol' => 'operario',
                 'imagen' => 'https://i.pravatar.cc/150?u=' . $faker->unique()->numberBetween(1,1000),
