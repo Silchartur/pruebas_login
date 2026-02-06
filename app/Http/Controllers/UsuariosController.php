@@ -31,21 +31,18 @@ class UsuariosController extends Controller
 
         case 'gestor':
             if (Auth::guard('gestor')->attempt($credentials)) {
-                $request->session()->regenerate();
                 return redirect()->route('listadoUsuarios');
             }
             break;
 
         case 'administrativo':
             if (Auth::guard('administrativo')->attempt($credentials)) {
-                $request->session()->regenerate();
                 return redirect()->route('administrativo');
             }
             break;
 
         case 'operario':
             if (Auth::guard('operario')->attempt($credentials)) {
-                $request->session()->regenerate();
                 return redirect()->route('operario');
             }
             break;
