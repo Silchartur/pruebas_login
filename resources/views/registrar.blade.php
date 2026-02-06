@@ -8,7 +8,7 @@
 
 <body>
 
-<h2>Se ha cambiado nuevo usuario</h2>
+<h2>Añadir nuevo usuario</h2>
 
 @if ($errors->any())
 <div style="color:red;">
